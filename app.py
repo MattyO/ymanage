@@ -17,7 +17,7 @@ def manage_file():
         grains_data = yaml.load(file(grain_file))
         try:
             request_data = json.loads(request.data)
-            if request_data['username'] != username && request_data['password'] != password:
+            if request_data['username'] != username and request_data['password'] != password:
                 return jsonfigy(status="not authorized")
 
             new_yaml_data = request_data['grain_data']
@@ -28,9 +28,10 @@ def manage_file():
 
             return jsonify(grains_data)
 
-        except Exception ex:
+        except Exception as ex:
             return jsonify(status="Error")
 
     return jsonify(status="ok")
 
-
+if __name__ == '__main__':
+    app.run()
