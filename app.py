@@ -1,8 +1,9 @@
 import json
 import yaml
 import os 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 app = Flask(__name__)
+app.debug=True
 
 grain_file = '/etc/salt/grains'
 username = os.environ['YMANAGE_USER']
@@ -11,7 +12,9 @@ password = os.environ['YMANAGE_PASSWORD']
 @app.route("/", methods=['GET', 'POST'])
 def manage_file():
     if request.method == 'GET':
-        return jsonify(yaml.load(file(grain_file)))
+        file_stuff = yaml.load(file(grain_file))
+        print file_stuff
+        return jsonify(file_stuff)
 
     elif request.methods == 'POST':
         grains_data = yaml.load(file(grain_file))
