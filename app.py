@@ -8,12 +8,12 @@ grain_file = '/etc/salt/grains'
 username = os.environ['YMANAGE_USER']
 password = os.environ['YMANAGE_PASSWORD'] 
 
-@app.route("/", method=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def manage_file():
     if request.method == 'GET':
         return jsonify(yaml.load(file(grain_file)))
 
-    elif request.method == 'POST':
+    elif request.methods == 'POST':
         grains_data = yaml.load(file(grain_file))
         try:
             request_data = json.loads(request.data)

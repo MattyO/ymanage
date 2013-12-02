@@ -1,0 +1,2 @@
+export YMANAGE_USER="test_user"
+export YMANAGE_PASSWORD="test_password"
