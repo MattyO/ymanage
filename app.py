@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.debug=True
 
 grain_file = '/etc/salt/grains'
+#grain_file = 'grains'
 USERNAME = os.environ['YMANAGE_USER']
 PASSWORD = os.environ['YMANAGE_PASSWORD'] 
 
@@ -17,7 +18,7 @@ def is_authenticated(request):
     username, password = usernamepassword.split(":")
     return USERNAME == username and PASSWORD == password
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'PUT'])
 def manage_file():
     if not is_authenticated(request): 
         return jsonify(status="not authenticated")
@@ -27,20 +28,19 @@ def manage_file():
         print file_stuff
         return jsonify(file_stuff)
 
-    elif request.methods == 'POST':
-        grains_data = yaml.load(file(grain_file))
+    elif request.method == 'PUT':
         try:
+            grains_data = yaml.load(file(grain_file))
             request_data = json.loads(request.data)
-            new_yaml_data = request_data['grain_data']
-            grains_data.update(new_yaml_data)
+            grains_data.update(request_data)
 
-            with open(grains_file, 'w') as f:
+            with open(grain_file, 'w') as f:
                 f.write(yaml.dump(grains_data))
 
             return jsonify(grains_data)
 
         except Exception as ex:
-            return jsonify(status="Error")
+            return jsonify(status="Error", message = ex.message)
 
     return jsonify(status="ok")
 
