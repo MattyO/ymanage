@@ -6,8 +6,8 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 app.debug=True
 
-#grain_file = '/etc/salt/grains'
-grain_file = 'grains'
+grain_file = '/etc/salt/grains'
+#grain_file = 'grains'
 USERNAME = os.environ['YMANAGE_USER']
 PASSWORD = os.environ['YMANAGE_PASSWORD'] 
 
