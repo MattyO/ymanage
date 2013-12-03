@@ -6,8 +6,8 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 app.debug=True
 
-grain_file = '/etc/salt/grains'
-#grain_file = 'grains'
+#grain_file = '/etc/salt/grains'
+grain_file = 'grains'
 USERNAME = os.environ['YMANAGE_USER']
 PASSWORD = os.environ['YMANAGE_PASSWORD'] 
 
@@ -34,8 +34,8 @@ def manage_file():
             request_data = json.loads(request.data)
             grains_data.update(request_data)
 
-            with open(grain_file, 'w') as f:
-                f.write(yaml.dump(grains_data))
+            yaml.safe_dump(grains_data,file(grain_file, 'w'), default_flow_style=False, indent=2)
+            
 
             return jsonify(grains_data)
 
