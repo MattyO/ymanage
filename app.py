@@ -19,7 +19,7 @@ def is_authenticated(request):
     return USERNAME == username and PASSWORD == password
 
 @app.route("/ping", methods=['GET'])
-def manage_file(request):
+def ping(request):
     if not is_authenticated(request): 
         return jsonify(status="not authenticated")
 
