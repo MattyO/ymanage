@@ -18,8 +18,15 @@ def is_authenticated(request):
     username, password = usernamepassword.split(":")
     return USERNAME == username and PASSWORD == password
 
+@app.route("/ping", methods=['GET'])
+def manage_file(request):
+    if not is_authenticated(request): 
+        return jsonify(status="not authenticated")
+
+    return jsonify({"status":"ok"})
+
 @app.route("/", methods=['GET', 'PUT'])
-def manage_file():
+def manage_file(request):
     if not is_authenticated(request): 
         return jsonify(status="not authenticated")
 
